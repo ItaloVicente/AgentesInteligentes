@@ -81,7 +81,7 @@ public class AgenteBaseadoEmModelo extends AgenteMolde {
         else if (movimento == 4) novoY--; 
     
         // Verifica se as novas coordenadas estão dentro dos limites do tabuleiro
-        if (novoX < 0 || novoY < 0 || novoX >= tabuleiro.getDim_x() || novoY >= tabuleiro.getDim_y()) {
+        if (novoX < 0 || novoY < 0 || novoX >= tabuleiro.getDim_y() || novoY >= tabuleiro.getDim_x()) {
             return false;
         }
     
@@ -114,7 +114,7 @@ public class AgenteBaseadoEmModelo extends AgenteMolde {
             int novoY = y + direcao[1];
     
             // Ignora posições fora do tabuleiro
-            if (novoX < 0 || novoY < 0 || novoX >= tabuleiro.getDim_x() || novoY >= tabuleiro.getDim_y()) {
+            if (novoX < 0 || novoY < 0 || novoX >= tabuleiro.getDim_y() || novoY >= tabuleiro.getDim_x()) {
                 continue;
             }
     
