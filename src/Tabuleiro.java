@@ -56,12 +56,10 @@ public class Tabuleiro{
     }
     public boolean retirar_sujeira(int coordenada_x, int coordenada_y){
         this.sujeiras[coordenada_x][coordenada_y] = "   ";
-        System.out.println(this.tabuleiro[coordenada_x][coordenada_y]);
         String cor = this.tabuleiro[coordenada_x][coordenada_y];
         cor = cor.trim();
         cor = cor.replace('S', ' ');
         cor = cor.trim();
-        System.out.println(cor);
 
         this.tabuleiro[coordenada_x][coordenada_y] = " " + cor + " ";
         for(int i = 0; i<dim_y; i++){
@@ -104,11 +102,7 @@ public class Tabuleiro{
             }
         }
     }
-    public void atribuir(AgenteMolde robo,int posAntiga_x,int posAntiga_y,int posicaoAliX, int posicaoAliY) throws SujeiraInvalida{
-        if(posicaoAliX<0||posicaoAliX>this.dim_x-1||posicaoAliY<0||posicaoAliY>this.dim_y-1){
-            throw new SujeiraInvalida(posicaoAliX, posicaoAliY);
-        }
-        tabuleiro[posicaoAliX][posicaoAliY]= "0  ";
+    public void atribuir(AgenteMolde robo,int posAntiga_x,int posAntiga_y){
         String posicaoAntigaString= tabuleiro[posAntiga_x][posAntiga_y].strip();
         if(posicaoAntigaString.length()==2){
             char corRobo = robo.getCor().charAt(0);

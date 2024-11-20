@@ -16,8 +16,6 @@ public class App3 {
         tabuleiro.criar_obstaculos();
         tabuleiro.criar_sujeiras();
         tabuleiro.mostrarMatriz();
-        int posicaoAliX = -1;
-        int posicaoAliY = -1;
         int movR1=0;
         int movRoboInt=0;
         int movInvR1=0;
@@ -26,25 +24,17 @@ public class App3 {
         boolean verificadorRoboInteligente = false;
         while(verificadorAlimento!=true){
             try{
-                System.out.println("Digite a posicao do alimento em x: ");
-                System.out.println("Lembre-se que o Alimento precisa estar nas dimensoes da sala");
-                posicaoAliX = teclado.nextInt();
-                System.out.println("Digite a posicao do alimento em y: ");
-                System.out.println("Lembre-se que o Alimento precisa estar nas dimensoes da sala");
-                posicaoAliY = teclado.nextInt();
-                posicaoAliX-=1;
-                posicaoAliY-=1;
                 verificadorAlimento=true;
-                tabuleiro.atribuir(robo, 0, 0, posicaoAliX, posicaoAliY);
-                tabuleiro.atribuir(roboInteligente, 0, 0, posicaoAliX, posicaoAliY);
+                tabuleiro.atribuir(robo, 0, 0);
+                tabuleiro.atribuir(roboInteligente, 0, 0);
                 tabuleiro.mostrarMatriz();
-            }catch(SujeiraInvalida e){
+            }catch(Exception e){
                 System.out.println(e);
             }
         }
-        while(verificadorRobo!=true||verificadorRoboInteligente!=true){
+        while(verificadorRobo!=true&&verificadorRoboInteligente!=true){
             try{
-                while(verificadorRobo!=true||verificadorRoboInteligente!=true){
+                while(verificadorRobo!=true&&verificadorRoboInteligente!=true){
                     int[] coordenadasR1 = robo.getCoordenadas();
                     int posAntigaR1_x = coordenadasR1[0];
                     int posAntigaR1_y = coordenadasR1[1];
@@ -56,7 +46,7 @@ public class App3 {
                         if(verificadorRobo!=true){
                         robo.mover(numRandom.nextInt(4)+1, tabuleiro);
                         movR1=movR1+1;
-                        tabuleiro.atribuir(robo, posAntigaR1_x, posAntigaR1_y, posicaoAliX, posicaoAliY);
+                        tabuleiro.atribuir(robo, posAntigaR1_x, posAntigaR1_y);
                         tabuleiro.mostrarMatriz();
                         Thread.sleep(600);
                         }
@@ -71,25 +61,24 @@ public class App3 {
                         if(verificadorRoboInteligente!=true){
                         roboInteligente.mover(numRandom.nextInt(4)+1, tabuleiro);
                         movRoboInt=movRoboInt+1;
-                        tabuleiro.atribuir(roboInteligente, posAntigaR2_x, posAntigaR2_y, posicaoAliX, posicaoAliY);
+                        tabuleiro.atribuir(roboInteligente, posAntigaR2_x, posAntigaR2_y);
                         tabuleiro.mostrarMatriz();
                         Thread.sleep(600);
                         }
                     }catch(MovimentoInvalidoException e){
                         movInvRoboInt++;
                     }
+                    
                     boolean win2 = roboInteligente.verificar(tabuleiro);
                     if(win2==true){
                         verificadorRoboInteligente=true;
                     }
-                    if(verificadorRobo==true && verificadorRoboInteligente == true){
+                    if(verificadorRobo==true || verificadorRoboInteligente == true){
                         System.out.println("Robo e RoboInteligente Chegaram");
                         System.out.println("Quantidade de Acertos/Erros do Robo 1: " + movR1 + " / " + movInvR1);
                         System.out.println("Quantidade de Acertos/Erros do Robo 2: " + movRoboInt + " / " + movInvRoboInt);
                     }
                 }
-            }catch(SujeiraInvalida e){
-                System.out.println(e);
             }catch(Exception e){
                 System.out.println(e);
             }
