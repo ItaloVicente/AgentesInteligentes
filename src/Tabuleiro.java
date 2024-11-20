@@ -1,17 +1,47 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Tabuleiro{
     private String tabuleiro [] [];
+    private String obstaculos [] [];
+    private String sujeiras [] [];
     private int dim_x;
     private int dim_y;
-    public Tabuleiro(int dim_x, int dim_y){
+    private int num_obstaculos;
+    private int num_sujeiras;
+    public Tabuleiro(int dim_x, int dim_y, int num_obstaculos, int num_sujeiras){
         this.tabuleiro = new String[dim_y][dim_x];
+        this.obstaculos = new String[dim_y][dim_x];
+        this.sujeiras = new String[dim_y][dim_x];
         this.dim_x = dim_x;
         this.dim_y = dim_y;
+        this.num_obstaculos = num_obstaculos;
+        this.num_sujeiras = num_sujeiras;
         for(int i=0;i<dim_y;i++){
             for(int j=0;j<dim_x;j++){
-                tabuleiro[i][j]="   ";
+                this.tabuleiro[i][j]="   ";
+                this.obstaculos[i][j]="   ";
+                this.sujeiras[i][j]="   ";
             }
+        }
+    }
+    public void criar_obstaculos(){
+        Random r = new Random();
+        int[] random_eixo_x = new int[dim_x];
+        int[] random_eixo_y = new int[dim_y];
+        for(int i = 0;i<dim_x;i++){
+            random_eixo_x[i] = i;
+        }
+        for(int i = 0;i<dim_y;i++){
+            random_eixo_y[i] = i;
+        }
+        for(int i = 0; i<num_obstaculos; i++){
+            int y = r.nextInt(dim_y);
+            int x = r.nextInt(dim_x);
+            //O de obstaculo
+            //E importante ressaltar que primeiro coloco a coordenada y e depois x por conta do formato que a matriz e gerada
+            this.tabuleiro[y][x] = " O ";
+            this.obstaculos[y][x] = " O ";
         }
     }
     public void atribuir(AgenteMolde robo,int posAntiga_x,int posAntiga_y,int posicaoAliX, int posicaoAliY) throws SujeiraInvalida{
