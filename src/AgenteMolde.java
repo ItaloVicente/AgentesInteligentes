@@ -27,7 +27,6 @@ public class AgenteMolde{
             throw new MovimentoInvalidoException(x, y);
         }
         if(coordenadas[0]>0 || coordenadas[1]>0 || coordenadas[0]<dim_x-1 || coordenadas[1]<dim_y-1){
-            System.out.println(obstaculos[coordenadas[0]][coordenadas[1]]);
             if(obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")){
                 coordenadas[0] = x;
                 coordenadas[1] = y;
@@ -51,11 +50,17 @@ public class AgenteMolde{
             mover("left", tabuleiro);
         }
     }
-    public boolean verificar(int x, int y){
-        if(x==coordenadas[0] && y==coordenadas[1]){
-            return true;
+    public boolean verificar(Tabuleiro tabuleiro){
+        String[][] sujeiras = tabuleiro.getSujeiras();
+        if(sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")){
+            return this.aspirar(tabuleiro);
         }
-        return false;
+        else{
+            return false;
+        }
+    }
+    public boolean aspirar(Tabuleiro tabuleiro){
+        return tabuleiro.retirar_sujeira(this.coordenadas[0], this.coordenadas[1]);
     }
     public String getCor() {
         return cor;

@@ -54,6 +54,25 @@ public class Tabuleiro{
         }
         }
     }
+    public boolean retirar_sujeira(int coordenada_x, int coordenada_y){
+        this.sujeiras[coordenada_x][coordenada_y] = "   ";
+        System.out.println(this.tabuleiro[coordenada_x][coordenada_y]);
+        String cor = this.tabuleiro[coordenada_x][coordenada_y];
+        cor = cor.trim();
+        cor = cor.replace('S', ' ');
+        cor = cor.trim();
+        System.out.println(cor);
+
+        this.tabuleiro[coordenada_x][coordenada_y] = " " + cor + " ";
+        for(int i = 0; i<dim_y; i++){
+            for(int j = 0; j<dim_x; j++){
+                if(sujeiras[i][j].strip().equals("S")){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public void criar_sujeiras(){
         Random r = new Random();
         int[] random_eixo_x = new int[dim_x];

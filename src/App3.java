@@ -63,7 +63,7 @@ public class App3 {
                     }catch(MovimentoInvalidoException e){
                         movInvR1++;
                     }
-                    boolean win1 = robo.verificar(posicaoAliX, posicaoAliY);
+                    boolean win1 = robo.verificar(tabuleiro);
                     if(win1==true){
                         verificadorRobo=true;
                     }
@@ -78,7 +78,7 @@ public class App3 {
                     }catch(MovimentoInvalidoException e){
                         movInvRoboInt++;
                     }
-                    boolean win2 = roboInteligente.verificar(posicaoAliX, posicaoAliY);
+                    boolean win2 = roboInteligente.verificar(tabuleiro);
                     if(win2==true){
                         verificadorRoboInteligente=true;
                     }
