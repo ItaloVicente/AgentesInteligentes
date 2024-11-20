@@ -36,12 +36,22 @@ public class Tabuleiro{
             random_eixo_y[i] = i;
         }
         for(int i = 0; i<num_obstaculos; i++){
+            //verificador para evitar que o obstaculo seja criado na pos 00
+            boolean verificadorPos00 = false;
+            while(verificadorPos00 == false){
             int y = r.nextInt(dim_y);
             int x = r.nextInt(dim_x);
+            if(y == 0 && x == 0){
+                continue;
+            }
+            else{
             //O de obstaculo
             //E importante ressaltar que primeiro coloco a coordenada y e depois x por conta do formato que a matriz e gerada
             this.tabuleiro[y][x] = " O ";
             this.obstaculos[y][x] = " O ";
+            verificadorPos00 = true;
+            }
+        }
         }
     }
     public void criar_sujeiras(){
@@ -60,6 +70,10 @@ public class Tabuleiro{
             while(verificadorObstaculoExistente == false){
                 int y = r.nextInt(dim_y);
                 int x = r.nextInt(dim_x);
+                if (y==0 && x==0){
+                    continue;
+                }
+                else{
                 //S de Sujeira
                 //E importante ressaltar que primeiro coloco a coordenada y e depois x por conta do formato que a matriz e gerada
                 if(tabuleiro[y][x].strip().length()==0){
@@ -67,6 +81,7 @@ public class Tabuleiro{
                     this.sujeiras[y][x] = " S ";
                     verificadorObstaculoExistente = true;
                 }
+            }
             }
         }
     }
@@ -123,6 +138,18 @@ public class Tabuleiro{
     }
     public void setDim_y(int dim_y) {
         this.dim_y = dim_y;
+    }
+    public String[][] getObstaculos() {
+        return obstaculos;
+    }
+    public void setObstaculos(String[][] obstaculos) {
+        this.obstaculos = obstaculos;
+    }
+    public String[][] getSujeiras() {
+        return sujeiras;
+    }
+    public void setSujeiras(String[][] sujeiras) {
+        this.sujeiras = sujeiras;
     }
     
 }

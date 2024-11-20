@@ -20,10 +20,20 @@ public class AgenteMolde{
         }else if (m=="right"){
             coordenadas[1]++;
         }
+        String[][] obstaculos = tabuleiro.getObstaculos();
         if (coordenadas[0]<0 || coordenadas[1]<0 || coordenadas[0]>dim_x-1 || coordenadas[1]>dim_y-1){
             coordenadas[0] = x;
             coordenadas[1] = y;
             throw new MovimentoInvalidoException(x, y);
+        }
+        if(coordenadas[0]>0 || coordenadas[1]>0 || coordenadas[0]<dim_x-1 || coordenadas[1]<dim_y-1){
+            System.out.println(obstaculos[coordenadas[0]][coordenadas[1]]);
+            if(obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")){
+                coordenadas[0] = x;
+                coordenadas[1] = y;
+                throw new MovimentoInvalidoException(x, y);
+            }
+
         }
         
     }

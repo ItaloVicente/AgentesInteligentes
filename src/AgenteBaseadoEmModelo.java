@@ -37,6 +37,7 @@ public class AgenteBaseadoEmModelo extends AgenteMolde {
     @Override
     public void mover(int movimento, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
         try{
+            
             super.mover(movimento, tabuleiro);
         }catch(MovimentoInvalidoException e){
             if(!errou){
