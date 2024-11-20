@@ -6,7 +6,7 @@ public class AgenteBaseadoEmModelo extends AgenteMolde {
     String[][] modelo;
     int dim_y;
     int dim_x;
-    public AgenteBaseadoEmModelo(String cor, int dim_y, int dim_x){
+    public AgenteBaseadoEmModelo(String cor, int dim_x, int dim_y){
         super(cor);
         //modelo inicialmente vazio
         modelo = new String[dim_y][dim_x];
@@ -49,10 +49,7 @@ public class AgenteBaseadoEmModelo extends AgenteMolde {
             while(this.verificar_modelo(new_movimento, tabuleiro)==false){
                 new_movimento=casos[r.nextInt(4)];
             }
-            System.out.println(movimento);
             movimento = new_movimento;
-            System.out.println(new_movimento);
-            System.out.println(movimento);
         }
         this.mostrarMatriz();
         try{
@@ -126,6 +123,7 @@ public class AgenteBaseadoEmModelo extends AgenteMolde {
                 return false;
             }
         }
+        modelo[x][y] = "L";
         // Todas as posições ao redor foram exploradas ou são obstáculos, entao o agente acaba voltando uma casa que ja havia visitado
         return true; 
     }

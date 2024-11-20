@@ -2,6 +2,7 @@ import java.util.Random;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        //tamanho de 5 por 5 3 obstaculos e 3 sujeiras
         AgenteMolde robo = new AgenteBaseadoEmModelo("Azul", 5, 5);
         AgenteMolde roboInteligente = new AgenteReagenteSimples("Verde");
         Tabuleiro tabuleiro = new Tabuleiro(5, 5, 3, 3);
