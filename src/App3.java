@@ -13,7 +13,9 @@ public class App3 {
         System.out.println("Informe o tamanho vertical da sala");
         int dim_y = teclado.nextInt();
         Tabuleiro tabuleiro = new Tabuleiro(dim_x,dim_y, 3, 3);
-        //tabuleiro.criar_obstaculos();
+        tabuleiro.criar_obstaculos();
+        tabuleiro.criar_sujeiras();
+        tabuleiro.mostrarMatriz();
         int posicaoAliX = -1;
         int posicaoAliY = -1;
         int movR1=0;
@@ -92,6 +94,6 @@ public class App3 {
                 System.out.println(e);
             }
         }
-        
+        teclado.close();
     }
     }
