@@ -6,7 +6,9 @@ public class AgenteMolde{
         this.coordenadas[0]=0;
         this.coordenadas[1]=0;
     }
-    public void mover (String m, int dim_x, int dim_y) throws MovimentoInvalidoException {
+    public void mover (String m, Tabuleiro tabuleiro) throws MovimentoInvalidoException {
+        int dim_x = tabuleiro.getDim_x();
+        int dim_y = tabuleiro.getDim_y();
         int x = coordenadas[0];
         int y = coordenadas[1];
         if (m=="up"){
@@ -25,18 +27,18 @@ public class AgenteMolde{
         }
         
     }
-    public void mover (int m, int dim_x, int dim_y) throws MovimentoInvalidoException{
+    public void mover (int m, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
         if(m==1){
-            mover("up", dim_x, dim_y);
+            mover("up", tabuleiro);
         }
         if(m==2){
-            mover("down", dim_x, dim_y);
+            mover("down", tabuleiro);
         }
         if(m==3){
-            mover("right", dim_x, dim_y);
+            mover("right", tabuleiro);
         }
         if(m==4){
-            mover("left", dim_x, dim_y);
+            mover("left", tabuleiro);
         }
     }
     public boolean verificar(int x, int y){

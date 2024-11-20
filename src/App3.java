@@ -54,7 +54,7 @@ public class App3 {
                     Random numRandom = new Random();
                     try{
                         if(verificadorRobo!=true){
-                        robo.mover(numRandom.nextInt(4)+1, tabuleiro.getDim_x(), tabuleiro.getDim_y());
+                        robo.mover(numRandom.nextInt(4)+1, tabuleiro);
                         movR1=movR1+1;
                         tabuleiro.atribuir(robo, posAntigaR1_x, posAntigaR1_y, posicaoAliX, posicaoAliY);
                         tabuleiro.mostrarMatriz();
@@ -69,7 +69,7 @@ public class App3 {
                     }
                     try{
                         if(verificadorRoboInteligente!=true){
-                        roboInteligente.mover(numRandom.nextInt(4)+1, tabuleiro.getDim_x(), tabuleiro.getDim_y());
+                        roboInteligente.mover(numRandom.nextInt(4)+1, tabuleiro);
                         movRoboInt=movRoboInt+1;
                         tabuleiro.atribuir(roboInteligente, posAntigaR2_x, posAntigaR2_y, posicaoAliX, posicaoAliY);
                         tabuleiro.mostrarMatriz();

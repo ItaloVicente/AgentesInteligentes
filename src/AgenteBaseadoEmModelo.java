@@ -1,8 +1,17 @@
 import java.util.Random;
-public class AgenteReagenteSimples extends AgenteMolde {
+
+public class AgenteBaseadoEmModelo extends AgenteMolde {
     boolean errou = false;
-    public AgenteReagenteSimples(String cor){
+    String[][] modelo;
+    public AgenteBaseadoEmModelo(String cor, int dim_y, int dim_x){
         super(cor);
+        //modelo inicialmente vazio
+        modelo = new String[dim_y][dim_x];
+        for(int i=0;i<dim_y;i++){
+            for(int j=0;j<dim_x;j++){
+                this.modelo[i][j]="   ";
+            }
+        }
     }
     @Override
     public void mover(String movimento, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
