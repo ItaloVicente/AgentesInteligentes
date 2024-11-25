@@ -1,13 +1,19 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class AgenteMolde{
     protected String cor;
     protected int[]coordenadas = new int[2];
     protected int pontuacao;
+    private Set<String> celulasVisitadas = new HashSet<>();
 
     public AgenteMolde(String cor) {
         this.cor = cor;
         this.coordenadas[0]=0;
         this.coordenadas[1]=0;
         this.pontuacao = 0;
+
+        
     }
     public void mover (String m, Tabuleiro tabuleiro) throws MovimentoInvalidoException {
         int dim_x = tabuleiro.getDim_x();
@@ -24,28 +30,38 @@ public class AgenteMolde{
         }else if (m.equals("right")){
             coordenadas[1]++;
         }
-        String[][] obstaculos = tabuleiro.getObstaculos();
+        
         if (coordenadas[0]<0 || coordenadas[1]<0 || coordenadas[0]>dim_y-1 || coordenadas[1]>dim_x-1){
             coordenadas[0] = x;
             coordenadas[1] = y;
-            pontuacao--; // Perde ponto por bater em um obstáculo
             throw new MovimentoInvalidoException(x, y);
         }
+        String[][] obstaculos = tabuleiro.getObstaculos();
+        //aqui eu evito que ele faça movimentos alem da celula
         if(coordenadas[0]>0 || coordenadas[1]>0 || coordenadas[0]<dim_y-1 || coordenadas[1]<dim_x-1){
             if(obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")){
                 coordenadas[0] = x;
                 coordenadas[1] = y;
+                pontuacao-=3; // Perde ponto por bater em um obstáculo
                 throw new MovimentoInvalidoException(x, y);
             }
 
         }
+        String posicaoAtual = coordenadas[0]+","+coordenadas[1];
+        if (!celulasVisitadas.contains(posicaoAtual)){
+            celulasVisitadas.add(posicaoAtual);
+            //pontuacao-=1; 
+        }else{
+            pontuacao-=4; // perde pontos por vsitar novamente a mesma celula
+        }
+
         //pontuacao por alcancar a sujeira
         String[][] sujeiras = tabuleiro.getSujeiras();
         if (sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")) {
-            pontuacao += 2; // Ganha 2 pontos por alcançar sujeira
-        } else {
-            pontuacao--; // Perde 1 ponto por não alcançar sujeira
-        }
+            pontuacao += 10; // Ganha 2 pontos por alcançar sujeira
+        } //else {
+        //     pontuacao--; // Perde 1 ponto por não alcançar sujeira
+        // }
         
         
     }

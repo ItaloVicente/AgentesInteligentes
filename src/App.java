@@ -3,9 +3,9 @@ import java.util.Random;
 public class App {
     public static void main(String[] args) throws Exception {
         // tamanho de 5 por 5 com 3 obstáculos e 3 sujeiras
-        AgenteMolde robo = new AgenteBaseadoEmModelo("Azul", 4, 8);
+        AgenteMolde robo = new AgenteBaseadoEmModelo("Azul", 3, 3);
         AgenteMolde roboInteligente = new AgenteReagenteSimples("Verde");
-        Tabuleiro tabuleiro = new Tabuleiro(4, 8, 3, 3);
+        Tabuleiro tabuleiro = new Tabuleiro(3, 3, 3, 3);
         tabuleiro.criar_obstaculos();
         tabuleiro.criar_sujeiras();
 
@@ -66,7 +66,7 @@ public class App {
 
                     boolean win2 = roboInteligente.verificar(tabuleiro);
                     if (win2) {
-                        verificadorRoboInteligente = true;
+                       verificadorRoboInteligente = true;
                     }
 
                     if (verificadorRobo || verificadorRoboInteligente) {
