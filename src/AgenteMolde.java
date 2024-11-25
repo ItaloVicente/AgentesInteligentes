@@ -1,29 +1,34 @@
 public class AgenteMolde{
     protected String cor;
     protected int[]coordenadas = new int[2];
+    protected int pontuacao;
+
     public AgenteMolde(String cor) {
         this.cor = cor;
         this.coordenadas[0]=0;
         this.coordenadas[1]=0;
+        this.pontuacao = 0;
     }
     public void mover (String m, Tabuleiro tabuleiro) throws MovimentoInvalidoException {
         int dim_x = tabuleiro.getDim_x();
         int dim_y = tabuleiro.getDim_y();
         int x = coordenadas[0];
         int y = coordenadas[1];
-        if (m=="up"){
+
+        if(m.equals("up")){
             coordenadas[0]--;
-        }else if (m=="down"){
+        }else if (m.equals("down")){
             coordenadas[0]++;
-        }else if (m=="left"){
+        }else if (m.equals("left")){
             coordenadas[1]--;
-        }else if (m=="right"){
+        }else if (m.equals("right")){
             coordenadas[1]++;
         }
         String[][] obstaculos = tabuleiro.getObstaculos();
         if (coordenadas[0]<0 || coordenadas[1]<0 || coordenadas[0]>dim_y-1 || coordenadas[1]>dim_x-1){
             coordenadas[0] = x;
             coordenadas[1] = y;
+            pontuacao--; // Perde ponto por bater em um obstáculo
             throw new MovimentoInvalidoException(x, y);
         }
         if(coordenadas[0]>0 || coordenadas[1]>0 || coordenadas[0]<dim_y-1 || coordenadas[1]<dim_x-1){
@@ -34,6 +39,14 @@ public class AgenteMolde{
             }
 
         }
+        //pontuacao por alcancar a sujeira
+        String[][] sujeiras = tabuleiro.getSujeiras();
+        if (sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")) {
+            pontuacao += 2; // Ganha 2 pontos por alcançar sujeira
+        } else {
+            pontuacao--; // Perde 1 ponto por não alcançar sujeira
+        }
+        
         
     }
     public void mover (int m, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
@@ -50,6 +63,7 @@ public class AgenteMolde{
             mover("left", tabuleiro);
         }
     }
+
     public boolean verificar(Tabuleiro tabuleiro){
         String[][] sujeiras = tabuleiro.getSujeiras();
         if(sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")){
@@ -76,5 +90,9 @@ public class AgenteMolde{
 
     public void setCoordenadas(int[] coordenadas) {
         this.coordenadas = coordenadas;
+    }
+
+    public int getPontuacao() {
+        return pontuacao;
     }
 }
