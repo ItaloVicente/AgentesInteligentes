@@ -4,67 +4,69 @@ import java.util.Set;
 public class AgenteMolde{
     protected String cor;
     protected int[]coordenadas = new int[2];
-    protected int pontuacao;
+    protected int acertos;
+    protected int erros;
     private Set<String> celulasVisitadas = new HashSet<>();
 
     public AgenteMolde(String cor) {
         this.cor = cor;
         this.coordenadas[0]=0;
         this.coordenadas[1]=0;
-        this.pontuacao = 0;
+        this.acertos=0;
+        this.erros=0;
 
         
     }
-    public void mover (String m, Tabuleiro tabuleiro) throws MovimentoInvalidoException {
+    public void mover(String m, Tabuleiro tabuleiro) throws MovimentoInvalidoException {
         int dim_x = tabuleiro.getDim_x();
         int dim_y = tabuleiro.getDim_y();
         int x = coordenadas[0];
         int y = coordenadas[1];
-
-        if(m.equals("up")){
+    
+        if (m.equals("up")) {
             coordenadas[0]--;
-        }else if (m.equals("down")){
+        } else if (m.equals("down")) {
             coordenadas[0]++;
-        }else if (m.equals("left")){
+        } else if (m.equals("left")) {
             coordenadas[1]--;
-        }else if (m.equals("right")){
+        } else if (m.equals("right")) {
             coordenadas[1]++;
         }
-        
-        if (coordenadas[0]<0 || coordenadas[1]<0 || coordenadas[0]>dim_y-1 || coordenadas[1]>dim_x-1){
+    
+if (coordenadas[0] < 0 || coordenadas[1] < 0 || coordenadas[0] >= dim_y || coordenadas[1] >= dim_x) {
+    coordenadas[0] = x;
+    coordenadas[1] = y;
+    throw new MovimentoInvalidoException(x, y);
+}
+    String[][] obstaculos = tabuleiro.getObstaculos();
+    String[][] sujeiras = tabuleiro.getSujeiras();
+    String posicaoAtual = coordenadas[0] + "," + coordenadas[1];
+    if (obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")) {
+        // Penalidade apenas se for a primeira vez
+        if (!celulasVisitadas.contains(posicaoAtual)) {
             coordenadas[0] = x;
             coordenadas[1] = y;
+            erros += 3; // Perde pontos por bater no obstáculo
+            System.out.println("robo perdeu ponto por bater em um obstaculo");
             throw new MovimentoInvalidoException(x, y);
         }
-        String[][] obstaculos = tabuleiro.getObstaculos();
-        //aqui eu evito que ele faça movimentos alem da celula
-        if(coordenadas[0]>0 || coordenadas[1]>0 || coordenadas[0]<dim_y-1 || coordenadas[1]<dim_x-1){
-            if(obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")){
-                coordenadas[0] = x;
-                coordenadas[1] = y;
-                pontuacao-=3; // Perde ponto por bater em um obstáculo
-                throw new MovimentoInvalidoException(x, y);
-            }
-
-        }
-        String posicaoAtual = coordenadas[0]+","+coordenadas[1];
-        if (!celulasVisitadas.contains(posicaoAtual)){
-            celulasVisitadas.add(posicaoAtual);
-            //pontuacao-=1; 
-        }else{
-            pontuacao-=4; // perde pontos por vsitar novamente a mesma celula
-        }
-
-        //pontuacao por alcancar a sujeira
-        String[][] sujeiras = tabuleiro.getSujeiras();
-        if (sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")) {
-            pontuacao += 10; // Ganha 2 pontos por alcançar sujeira
-        } //else {
-        //     pontuacao--; // Perde 1 ponto por não alcançar sujeira
-        // }
-        
-        
     }
+    if (sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")) {
+        acertos += 10; // Ganha pontos por alcançar sujeira
+    } else {
+        // Penalidade por revisitar células (não-obstáculo)
+        if (!celulasVisitadas.contains(posicaoAtual)) {
+            celulasVisitadas.add(posicaoAtual); // Adiciona como visitada
+            erros += 1; // Perde 1 ponto por célula vazia
+            System.out.println("robo perdeu pontos por irpara celula vazia");
+        } else {
+            erros += 3; // Penaliza revisita
+            System.out.println("robo perdeu pontos por revisitar um local ja visitado");
+        }
+    }
+    }
+
+
     public void mover (int m, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
         if(m==1){
             mover("up", tabuleiro);
@@ -108,7 +110,10 @@ public class AgenteMolde{
         this.coordenadas = coordenadas;
     }
 
-    public int getPontuacao() {
-        return pontuacao;
+    public int getAcertos() {
+        return acertos;
+    }
+    public int getErros() {
+        return erros;
     }
 }

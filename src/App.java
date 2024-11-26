@@ -39,7 +39,7 @@ public class App {
                             movR1++;
                             tabuleiro.atribuir(robo, posAntigaR1_x, posAntigaR1_y);
                             tabuleiro.mostrarMatriz();
-                            System.out.println("Pontuação do Robo " + robo.cor + ": "+ robo.getPontuacao());
+                            System.out.println("Pontuacao do Robo " + robo.cor + ": acertos "+ robo.getAcertos()+ ", Erros: "+robo.getErros());
                             Thread.sleep(600);
                         }
                     } catch (MovimentoInvalidoException e) {
@@ -57,7 +57,7 @@ public class App {
                             movRoboInt++;
                             tabuleiro.atribuir(roboInteligente, posAntigaR2_x, posAntigaR2_y);
                             tabuleiro.mostrarMatriz();
-                            System.out.println("Pontuação do Robo Inteligente: " +roboInteligente.cor + ": "+ roboInteligente.getPontuacao());
+                            System.out.println("Pontuacao do Robo " + roboInteligente.cor + ": acertos "+ roboInteligente.getAcertos()+ ", Erros: "+roboInteligente.getErros());
                             Thread.sleep(600);
                         }
                     } catch (MovimentoInvalidoException e) {
@@ -72,9 +72,9 @@ public class App {
                     if (verificadorRobo || verificadorRoboInteligente) {
                         System.out.println("Robo e RoboInteligente Chegaram");
                         System.out.println("Quantidade de Acertos/Erros do Robo 1: " + movR1 + " / " + movInvR1);
-                        System.out.println("Pontuação final do Robo 1: " + robo.getPontuacao());
+                        System.out.println("Pontuação final robo: " +robo.getCor()+": "+ robo.getAcertos()+" acertos, e "+robo.getErros()+ " erros.");
                         System.out.println("Quantidade de Acertos/Erros do Robo 2: " + movRoboInt + " / " + movInvRoboInt);
-                        System.out.println("Pontuação final do Robo Inteligente: " + roboInteligente.getPontuacao());
+                        System.out.println("Pontuação final robo: " +roboInteligente.getCor()+": "+ roboInteligente.getAcertos()+" acertos, e "+roboInteligente.getErros()+ " erros.");
                     }
                 }
             } catch (Exception e) {
