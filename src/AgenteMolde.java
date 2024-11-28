@@ -14,6 +14,8 @@ public class AgenteMolde{
         this.coordenadas[1]=0;
         this.acertos=0;
         this.erros=0;
+        String posicaoInicial = "0,0";
+        celulasVisitadas.add(posicaoInicial);
 
         
     }
@@ -41,18 +43,23 @@ if (coordenadas[0] < 0 || coordenadas[1] < 0 || coordenadas[0] >= dim_y || coord
     String[][] obstaculos = tabuleiro.getObstaculos();
     String[][] sujeiras = tabuleiro.getSujeiras();
     String posicaoAtual = coordenadas[0] + "," + coordenadas[1];
+    
     if (obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")) {
+        coordenadas[0] = x;
+        coordenadas[1] = y;
         // Penalidade apenas se for a primeira vez
         if (!celulasVisitadas.contains(posicaoAtual)) {
-            coordenadas[0] = x;
-            coordenadas[1] = y;
             erros += 3; // Perde pontos por bater no obstáculo
+            celulasVisitadas.add(posicaoAtual);
             System.out.println("robo perdeu ponto por bater em um obstaculo");
-            throw new MovimentoInvalidoException(x, y);
+            
         }
+        throw new MovimentoInvalidoException(x, y);
     }
+    
     if (sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")) {
         acertos += 10; // Ganha pontos por alcançar sujeira
+        celulasVisitadas.add(posicaoAtual);
     } else {
         // Penalidade por revisitar células (não-obstáculo)
         if (!celulasVisitadas.contains(posicaoAtual)) {

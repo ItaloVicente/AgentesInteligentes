@@ -1,47 +1,55 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        // tamanho de 5 por 5 com 3 obstáculos e 3 sujeiras
-        AgenteMolde robo = new AgenteBaseadoEmModelo("Azul", 3, 3);
-        AgenteMolde roboInteligente = new AgenteReagenteSimples("Verde");
-        Tabuleiro tabuleiro = new Tabuleiro(3, 3, 3, 3);
-        tabuleiro.criar_obstaculos();
-        tabuleiro.criar_sujeiras();
+        int iteracoes = 10; // Número de execuções
+        List<Integer> listaNumSujeiras = new ArrayList<>();
+        List<Integer> listaNumObstaculos = new ArrayList<>();
+        List<Integer> listaAcertos = new ArrayList<>();
+        List<Integer> listaErros = new ArrayList<>();
+        List<Integer> listaNumMovimentos = new ArrayList<>();
 
-        int movR1 = 0;
-        int movRoboInt = 0;
-        int movInvR1 = 0;
-        int movInvRoboInt = 0;
+        for (int iteracao = 0; iteracao < iteracoes; iteracao++) {
+            System.out.println("\n--- Iteração " + (iteracao + 1) + " ---");
 
-        boolean verificadorRobo = false;
-        boolean verificadorRoboInteligente = false;
+            AgenteMolde robo = new AgenteReagenteSimples("Azul");
+            Tabuleiro tabuleiro = new Tabuleiro(3, 3, 2, 3);
+            tabuleiro.criar_obstaculos();
+            tabuleiro.criar_sujeiras();
 
-        tabuleiro.atribuir(robo, 0, 0);
-        tabuleiro.atribuir(roboInteligente, 0, 0);
-        tabuleiro.mostrarMatriz();
+            int movR1 = 0;
+            int movInvR1 = 0;
 
-        while (!verificadorRobo && !verificadorRoboInteligente) {
-            try {
-                while (!verificadorRobo && !verificadorRoboInteligente) {
+            boolean verificadorRobo = false;
+
+            tabuleiro.atribuir(robo, 0, 0);
+            tabuleiro.mostrarMatriz();
+
+            // Conta o número inicial de sujeiras e obstáculos no tabuleiro
+            int numSujeiras = contarElementos(tabuleiro.getSujeiras(), "S");
+            int numObstaculos = contarElementos(tabuleiro.getObstaculos(), "O");
+            listaNumSujeiras.add(numSujeiras);
+            listaNumObstaculos.add(numObstaculos);
+
+            while (!verificadorRobo) {
+                try {
                     int[] coordenadasR1 = robo.getCoordenadas();
                     int posAntigaR1_x = coordenadasR1[0];
                     int posAntigaR1_y = coordenadasR1[1];
-                    int[] coordenadasR2 = roboInteligente.getCoordenadas();
-                    int posAntigaR2_x = coordenadasR2[0];
-                    int posAntigaR2_y = coordenadasR2[1];
 
                     Random numRandom = new Random();
 
                     try {
-                        if (!verificadorRobo) {
-                            robo.mover(numRandom.nextInt(4) + 1, tabuleiro);
-                            movR1++;
-                            tabuleiro.atribuir(robo, posAntigaR1_x, posAntigaR1_y);
-                            tabuleiro.mostrarMatriz();
-                            System.out.println("Pontuacao do Robo " + robo.cor + ": acertos "+ robo.getAcertos()+ ", Erros: "+robo.getErros());
-                            Thread.sleep(600);
-                        }
+                        robo.mover(numRandom.nextInt(4) + 1, tabuleiro);
+                        movR1++;
+                        tabuleiro.atribuir(robo, posAntigaR1_x, posAntigaR1_y);
+                        tabuleiro.mostrarMatriz();
+                        System.out.println("Pontuação do Robo " + robo.getCor() + ": acertos " + robo.getAcertos() + ", erros: " + robo.getErros());
+                        Thread.sleep(600);
                     } catch (MovimentoInvalidoException e) {
                         movInvR1++;
                     }
@@ -49,37 +57,65 @@ public class App {
                     boolean win1 = robo.verificar(tabuleiro);
                     if (win1) {
                         verificadorRobo = true;
+                        System.out.println("Limpeza finalizada!");
+                        System.out.println("Pontuação final robo: " + robo.getCor() + ": " + robo.getAcertos() + " acertos, e " + robo.getErros() + " erros.");
+                        System.out.println("Movimentos inválidos: " + movInvR1);
                     }
 
-                    try {
-                        if (!verificadorRoboInteligente) {
-                            roboInteligente.mover(numRandom.nextInt(4) + 1, tabuleiro);
-                            movRoboInt++;
-                            tabuleiro.atribuir(roboInteligente, posAntigaR2_x, posAntigaR2_y);
-                            tabuleiro.mostrarMatriz();
-                            System.out.println("Pontuacao do Robo " + roboInteligente.cor + ": acertos "+ roboInteligente.getAcertos()+ ", Erros: "+roboInteligente.getErros());
-                            Thread.sleep(600);
-                        }
-                    } catch (MovimentoInvalidoException e) {
-                        movInvRoboInt++;
-                    }
-
-                    boolean win2 = roboInteligente.verificar(tabuleiro);
-                    if (win2) {
-                       verificadorRoboInteligente = true;
-                    }
-
-                    if (verificadorRobo || verificadorRoboInteligente) {
-                        System.out.println("Robo e RoboInteligente Chegaram");
-                        System.out.println("Quantidade de Acertos/Erros do Robo 1: " + movR1 + " / " + movInvR1);
-                        System.out.println("Pontuação final robo: " +robo.getCor()+": "+ robo.getAcertos()+" acertos, e "+robo.getErros()+ " erros.");
-                        System.out.println("Quantidade de Acertos/Erros do Robo 2: " + movRoboInt + " / " + movInvRoboInt);
-                        System.out.println("Pontuação final robo: " +roboInteligente.getCor()+": "+ roboInteligente.getAcertos()+" acertos, e "+roboInteligente.getErros()+ " erros.");
-                    }
+                } catch (Exception e) {
+                    System.out.println(e);
                 }
-            } catch (Exception e) {
-                System.out.println(e);
+            }
+
+            // Adiciona os dados finais à lista
+            listaAcertos.add(robo.getAcertos());
+            listaErros.add(robo.getErros());
+            listaNumMovimentos.add(movR1);
+        }
+
+        // Calcula e exibe as médias
+        int totalAcertos = 0;
+        int totalErros = 0;
+
+        for (int i = 0; i < iteracoes; i++) {
+            totalAcertos += listaAcertos.get(i);
+            totalErros += listaErros.get(i);
+        }
+
+        float mediaAcertos = (float) totalAcertos / iteracoes;
+        float mediaErros = (float) totalErros / iteracoes;
+
+        System.out.println("\nResumo Geral:");
+        System.out.println("  Média de acertos: " + mediaAcertos);
+        System.out.println("  Média de erros: " + mediaErros);
+
+        // Grava os resultados em um arquivo CSV
+        try (FileWriter writer = new FileWriter("resultados.csv")) {
+            writer.append("Iteração,Acertos,Erros,Movimentos Realizados\n"); // Cabeçalho
+
+            for (int i = 0; i < iteracoes; i++) {
+                writer.append((i + 1) + "," + listaAcertos.get(i) + "," + listaErros.get(i) + "," + listaNumMovimentos.get(i) + "\n");
+            }
+
+            // Adiciona a linha com as médias
+            writer.append("Média," + mediaAcertos + "," + mediaErros + ",\n");
+
+            System.out.println("Resultados salvos no arquivo 'resultados.csv'");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao gravar o arquivo CSV: " + e.getMessage());
+        }
+    }
+
+    public static int contarElementos(String[][] matriz, String elemento) {
+        int contador = 0;
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (matriz[i][j].strip().equals(elemento)) {
+                    contador++;
+                }
             }
         }
+        return contador;
     }
 }
