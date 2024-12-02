@@ -15,9 +15,9 @@ public class App {
 
         for (int iteracao = 0; iteracao < iteracoes; iteracao++) {
             System.out.println("\n--- Iteração " + (iteracao + 1) + " ---");
-            //AgenteMolde robo = new AgenteBaseadoEmModelo("Azul", 3, 3);
+            // AgenteMolde robo = new AgenteBaseadoEmModelo("Azul", 3, 3);
             AgenteMolde robo = new AgenteReagenteSimples("Azul");
-            Ambiente ambiente = new Ambiente(3, 3, 2, 3);
+            Ambiente ambiente = new Ambiente(4, 4, 2, 5);
             ambiente.criar_obstaculos();
             ambiente.criar_sujeiras();
 

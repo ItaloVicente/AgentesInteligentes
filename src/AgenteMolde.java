@@ -35,11 +35,11 @@ public class AgenteMolde{
             coordenadas[1]++;
         }
     
-if (coordenadas[0] < 0 || coordenadas[1] < 0 || coordenadas[0] >= dim_y || coordenadas[1] >= dim_x) {
+    if (coordenadas[0] < 0 || coordenadas[1] < 0 || coordenadas[0] >= dim_y || coordenadas[1] >= dim_x) {
     coordenadas[0] = x;
     coordenadas[1] = y;
     throw new MovimentoInvalidoException(x, y);
-}
+    }
     String[][] obstaculos = ambiente.getObstaculos();
     String[][] sujeiras = ambiente.getSujeiras();
     String posicaoAtual = coordenadas[0] + "," + coordenadas[1];
@@ -71,6 +71,13 @@ if (coordenadas[0] < 0 || coordenadas[1] < 0 || coordenadas[0] >= dim_y || coord
             System.out.println("robo perdeu pontos por revisitar um local ja visitado");
         }
     }
+    //tratar aqui os casos em que não há solução - sujeira inalcansave ou agente preso
+
+
+
+
+
+
     }
 
 

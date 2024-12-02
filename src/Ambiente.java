@@ -71,6 +71,7 @@ public class Ambiente{
         }
         return true;
     }
+
     public void criar_sujeiras(){
         Random r = new Random();
         int[] random_eixo_x = new int[dim_x];
