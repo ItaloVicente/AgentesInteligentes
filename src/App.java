@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        int iteracoes = 30; // Número de execuções
+        int iteracoes = 10; // Número de execuções
         List<Integer> listaNumSujeiras = new ArrayList<>();
         List<Integer> listaNumObstaculos = new ArrayList<>();
         List<Integer> listaAcertos = new ArrayList<>();
@@ -15,50 +15,49 @@ public class App {
 
         for (int iteracao = 0; iteracao < iteracoes; iteracao++) {
             System.out.println("\n--- Iteração " + (iteracao + 1) + " ---");
-            // AgenteMolde robo = new AgenteBaseadoEmModelo("Azul", 3, 3);
-            AgenteMolde robo = new AgenteReagenteSimples("Azul");
-            Ambiente ambiente = new Ambiente(4, 4, 2, 5);
+            //AgenteMolde aspirador = new AgenteBaseadoEmModelo("Azul", 5, 5);
+            AgenteMolde aspirador = new AgenteReagenteSimples("Azul");
+            Ambiente ambiente = new Ambiente(5, 5, 2, 5);
             ambiente.criar_obstaculos();
             ambiente.criar_sujeiras();
 
             int movR1 = 0;
             int movInvR1 = 0;
 
-            boolean verificadorRobo = false;
+            boolean verificadorAspirador = false;
 
-            ambiente.atribuir(robo, 0, 0);
+            ambiente.atribuir(aspirador, 0, 0);
             ambiente.mostrarMatriz();
 
-            // Conta o número inicial de sujeiras e obstáculos no ambiente
             int numSujeiras = contarElementos(ambiente.getSujeiras(), "S");
             int numObstaculos = contarElementos(ambiente.getObstaculos(), "O");
             listaNumSujeiras.add(numSujeiras);
             listaNumObstaculos.add(numObstaculos);
 
-            while (!verificadorRobo) {
+            while (!verificadorAspirador) {
                 try {
-                    int[] coordenadasR1 = robo.getCoordenadas();
+                    int[] coordenadasR1 = aspirador.getCoordenadas();
                     int posAntigaR1_x = coordenadasR1[0];
                     int posAntigaR1_y = coordenadasR1[1];
 
                     Random numRandom = new Random();
 
                     try {
-                        robo.mover(numRandom.nextInt(4) + 1, ambiente);
+                        aspirador.mover(numRandom.nextInt(4) + 1, ambiente);
                         movR1++;
-                        ambiente.atribuir(robo, posAntigaR1_x, posAntigaR1_y);
+                        ambiente.atribuir(aspirador, posAntigaR1_x, posAntigaR1_y);
                         ambiente.mostrarMatriz();
-                        System.out.println("Pontuação do Robo " + robo.getCor() + ": acertos " + robo.getAcertos() + ", erros: " + robo.getErros());
+                        System.out.println("Pontuação do aspirador " + aspirador.getTipo() + ": acertos " + aspirador.getAcertos() + ", erros: " + aspirador.getErros());
                         Thread.sleep(600);
                     } catch (MovimentoInvalidoException e) {
                         movInvR1++;
                     }
 
-                    boolean win1 = robo.verificar(ambiente);
+                    boolean win1 = aspirador.verificar(ambiente);
                     if (win1) {
-                        verificadorRobo = true;
+                        verificadorAspirador = true;
                         System.out.println("Limpeza finalizada!");
-                        System.out.println("Pontuação final robo: " + robo.getCor() + ": " + robo.getAcertos() + " acertos, e " + robo.getErros() + " erros.");
+                        System.out.println("Pontuação final aspirador: " + aspirador.getTipo() + ": " + aspirador.getAcertos() + " acertos, e " + aspirador.getErros() + " erros.");
                         System.out.println("Movimentos inválidos: " + movInvR1);
                     }
 
@@ -67,13 +66,11 @@ public class App {
                 }
             }
 
-            // Adiciona os dados finais à lista
-            listaAcertos.add(robo.getAcertos());
-            listaErros.add(robo.getErros());
+            listaAcertos.add(aspirador.getAcertos());
+            listaErros.add(aspirador.getErros());
             listaNumMovimentos.add(movR1);
         }
 
-        // Calcula e exibe as médias
         int totalAcertos = 0;
         int totalErros = 0;
 
@@ -89,19 +86,15 @@ public class App {
         System.out.println("  Média de acertos: " + mediaAcertos);
         System.out.println("  Média de erros: " + mediaErros);
 
-        // Grava os resultados em um arquivo CSV
-        try (FileWriter writer = new FileWriter("robo_burro.csv")) {
+        try (FileWriter writer = new FileWriter("aspirador_burro5x5.csv")) {
             writer.append("Iteração,Acertos,Erros,Movimentos Realizados\n"); // Cabeçalho
 
             for (int i = 0; i < iteracoes; i++) {
                 writer.append((i + 1) + "," + listaAcertos.get(i) + "," + listaErros.get(i) + "," + listaNumMovimentos.get(i) + "\n");
             }
 
-            // Adiciona a linha com as médias
             writer.append("Média," + mediaAcertos + "," + mediaErros + ",\n");
-
-            System.out.println("Resultados salvos no arquivo 'resultados.csv'");
-
+            System.out.println("Resultados salvos no arquivo");
         } catch (IOException e) {
             System.out.println("Erro ao gravar o arquivo CSV: " + e.getMessage());
         }

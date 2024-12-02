@@ -2,14 +2,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AgenteMolde{
-    protected String cor;
+    protected String tipo;
     protected int[]coordenadas = new int[2];
     protected int acertos;
     protected int erros;
     private Set<String> celulasVisitadas = new HashSet<>();
 
-    public AgenteMolde(String cor) {
-        this.cor = cor;
+    public AgenteMolde(String tipo) {
+        this.tipo = tipo;
         this.coordenadas[0]=0;
         this.coordenadas[1]=0;
         this.acertos=0;
@@ -47,37 +47,25 @@ public class AgenteMolde{
     if (obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")) {
         coordenadas[0] = x;
         coordenadas[1] = y;
-        // Penalidade apenas se for a primeira vez
         if (!celulasVisitadas.contains(posicaoAtual)) {
-            erros += 3; // Perde pontos por bater no obstáculo
+            erros += 3; 
             celulasVisitadas.add(posicaoAtual);
-            System.out.println("robo perdeu ponto por bater em um obstaculo");
             
         }
         throw new MovimentoInvalidoException(x, y);
     }
     
     if (sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")) {
-        acertos += 10; // Ganha pontos por alcançar sujeira
+        acertos += 10;
         celulasVisitadas.add(posicaoAtual);
     } else {
-        // Penalidade por revisitar células (não-obstáculo)
         if (!celulasVisitadas.contains(posicaoAtual)) {
-            celulasVisitadas.add(posicaoAtual); // Adiciona como visitada
-            erros += 1; // Perde 1 ponto por célula vazia
-            System.out.println("robo perdeu pontos por irpara celula vazia");
+            celulasVisitadas.add(posicaoAtual); 
+            erros += 1; 
         } else {
-            erros += 3; // Penaliza revisita
-            System.out.println("robo perdeu pontos por revisitar um local ja visitado");
+            erros += 3; 
         }
     }
-    //tratar aqui os casos em que não há solução - sujeira inalcansave ou agente preso
-
-
-
-
-
-
     }
 
 
@@ -108,12 +96,12 @@ public class AgenteMolde{
     public boolean aspirar(Ambiente ambiente){
         return ambiente.retirar_sujeira(this.coordenadas[0], this.coordenadas[1]);
     }
-    public String getCor() {
-        return cor;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setCor(String cor) {
-        this.cor = cor;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int[] getCoordenadas() {

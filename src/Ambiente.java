@@ -56,12 +56,12 @@ public class Ambiente{
     }
     public boolean retirar_sujeira(int coordenada_x, int coordenada_y){
         this.sujeiras[coordenada_x][coordenada_y] = "   ";
-        String cor = this.ambiente[coordenada_x][coordenada_y];
-        cor = cor.trim();
-        cor = cor.replace('S', ' ');
-        cor = cor.trim();
+        String tipo = this.ambiente[coordenada_x][coordenada_y];
+        tipo = tipo.trim();
+        tipo = tipo.replace('S', ' ');
+        tipo = tipo.trim();
 
-        this.ambiente[coordenada_x][coordenada_y] = " " + cor + " ";
+        this.ambiente[coordenada_x][coordenada_y] = " " + tipo + " ";
         for(int i = 0; i<dim_y; i++){
             for(int j = 0; j<dim_x; j++){
                 if(sujeiras[i][j].strip().equals("S")){
@@ -83,7 +83,6 @@ public class Ambiente{
             random_eixo_y[i] = i;
         }
         for(int i = 0; i<num_sujeiras; i++){
-            //verificador para checar se a pos random da sujeira possui um obstaculo, voce primeira cria os obstaculos, depois as sujeiras
             boolean verificadorObstaculoExistente = false;
             while(verificadorObstaculoExistente == false){
                 int y = r.nextInt(dim_y);
@@ -92,8 +91,6 @@ public class Ambiente{
                     continue;
                 }
                 else{
-                //S de Sujeira
-                //E importante ressaltar que primeiro coloco a coordenada y e depois x por conta do formato que a matriz e gerada
                 if(ambiente[y][x].strip().length()==0){
                     this.ambiente[y][x] = " S ";
                     this.sujeiras[y][x] = " S ";
@@ -103,31 +100,31 @@ public class Ambiente{
             }
         }
     }
-    public void atribuir(AgenteMolde robo,int posAntiga_x,int posAntiga_y){
+    public void atribuir(AgenteMolde aspirador,int posAntiga_x,int posAntiga_y){
         String posicaoAntigaString= ambiente[posAntiga_x][posAntiga_y].strip();
         if(posicaoAntigaString.length()==2){
-            char corRobo = robo.getCor().charAt(0);
-            posicaoAntigaString =  posicaoAntigaString.replace(corRobo, ' ');
+            char tipoAspirador = aspirador.getTipo().charAt(0);
+            posicaoAntigaString =  posicaoAntigaString.replace(tipoAspirador, ' ');
             ambiente[posAntiga_x][posAntiga_y]=posicaoAntigaString+" ";
         }
         else if(posicaoAntigaString.length()==1){
-            char corRobo = robo.getCor().charAt(0);
-            posicaoAntigaString =  posicaoAntigaString.replace(corRobo, ' ');
+            char tipoAspirador = aspirador.getTipo().charAt(0);
+            posicaoAntigaString =  posicaoAntigaString.replace(tipoAspirador, ' ');
             ambiente[posAntiga_x][posAntiga_y]=posicaoAntigaString+"  ";
         }
         else{
         ambiente[posAntiga_x][posAntiga_y]="   ";
         }
-        int [] coordenadas = robo.getCoordenadas();
+        int [] coordenadas = aspirador.getCoordenadas();
         int x = coordenadas[0];
         int y = coordenadas[1];
         String espacoVazio = ambiente[x][y];
         if(espacoVazio.equals("   ")==true){
-            ambiente[x][y]=robo.getCor().charAt(0) + "  ";
+            ambiente[x][y]=aspirador.getTipo().charAt(0) + "  ";
         }   
         if(espacoVazio.equals("   ")==false){
             String cor = ambiente[x][y].strip();
-            ambiente[x][y]= cor + robo.getCor().charAt(0)+ " ";
+            ambiente[x][y]= cor + aspirador.getTipo().charAt(0)+ " ";
         }
     }
     public void mostrarMatriz(){
