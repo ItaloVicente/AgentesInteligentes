@@ -19,9 +19,9 @@ public class AgenteMolde{
 
         
     }
-    public void mover(String m, Tabuleiro tabuleiro) throws MovimentoInvalidoException {
-        int dim_x = tabuleiro.getDim_x();
-        int dim_y = tabuleiro.getDim_y();
+    public void mover(String m, Ambiente ambiente) throws MovimentoInvalidoException {
+        int dim_x = ambiente.getDim_x();
+        int dim_y = ambiente.getDim_y();
         int x = coordenadas[0];
         int y = coordenadas[1];
     
@@ -40,8 +40,8 @@ if (coordenadas[0] < 0 || coordenadas[1] < 0 || coordenadas[0] >= dim_y || coord
     coordenadas[1] = y;
     throw new MovimentoInvalidoException(x, y);
 }
-    String[][] obstaculos = tabuleiro.getObstaculos();
-    String[][] sujeiras = tabuleiro.getSujeiras();
+    String[][] obstaculos = ambiente.getObstaculos();
+    String[][] sujeiras = ambiente.getSujeiras();
     String posicaoAtual = coordenadas[0] + "," + coordenadas[1];
     
     if (obstaculos[coordenadas[0]][coordenadas[1]].strip().equals("O")) {
@@ -74,32 +74,32 @@ if (coordenadas[0] < 0 || coordenadas[1] < 0 || coordenadas[0] >= dim_y || coord
     }
 
 
-    public void mover (int m, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
+    public void mover (int m, Ambiente ambiente) throws MovimentoInvalidoException{
         if(m==1){
-            mover("up", tabuleiro);
+            mover("up", ambiente);
         }
         if(m==2){
-            mover("down", tabuleiro);
+            mover("down", ambiente);
         }
         if(m==3){
-            mover("right", tabuleiro);
+            mover("right", ambiente);
         }
         if(m==4){
-            mover("left", tabuleiro);
+            mover("left", ambiente);
         }
     }
 
-    public boolean verificar(Tabuleiro tabuleiro){
-        String[][] sujeiras = tabuleiro.getSujeiras();
+    public boolean verificar(Ambiente ambiente){
+        String[][] sujeiras = ambiente.getSujeiras();
         if(sujeiras[coordenadas[0]][coordenadas[1]].strip().equals("S")){
-            return this.aspirar(tabuleiro);
+            return this.aspirar(ambiente);
         }
         else{
             return false;
         }
     }
-    public boolean aspirar(Tabuleiro tabuleiro){
-        return tabuleiro.retirar_sujeira(this.coordenadas[0], this.coordenadas[1]);
+    public boolean aspirar(Ambiente ambiente){
+        return ambiente.retirar_sujeira(this.coordenadas[0], this.coordenadas[1]);
     }
     public String getCor() {
         return cor;

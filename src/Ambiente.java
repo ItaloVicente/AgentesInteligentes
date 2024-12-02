@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Tabuleiro{
-    private String tabuleiro [] [];
+public class Ambiente{
+    private String ambiente [] [];
     private String obstaculos [] [];
     private String sujeiras [] [];
     private int dim_x;
     private int dim_y;
     private int num_obstaculos;
     private int num_sujeiras;
-    public Tabuleiro(int dim_x, int dim_y, int num_obstaculos, int num_sujeiras){
-        this.tabuleiro = new String[dim_y][dim_x];
+    public Ambiente(int dim_x, int dim_y, int num_obstaculos, int num_sujeiras){
+        this.ambiente = new String[dim_y][dim_x];
         this.obstaculos = new String[dim_y][dim_x];
         this.sujeiras = new String[dim_y][dim_x];
         this.dim_x = dim_x;
@@ -19,7 +19,7 @@ public class Tabuleiro{
         this.num_sujeiras = num_sujeiras;
         for(int i=0;i<dim_y;i++){
             for(int j=0;j<dim_x;j++){
-                this.tabuleiro[i][j]="   ";
+                this.ambiente[i][j]="   ";
                 this.obstaculos[i][j]="   ";
                 this.sujeiras[i][j]="   ";
             }
@@ -47,7 +47,7 @@ public class Tabuleiro{
             else{
             //O de obstaculo
             //E importante ressaltar que primeiro coloco a coordenada y e depois x por conta do formato que a matriz e gerada
-            this.tabuleiro[y][x] = " O ";
+            this.ambiente[y][x] = " O ";
             this.obstaculos[y][x] = " O ";
             verificadorPos00 = true;
             }
@@ -56,12 +56,12 @@ public class Tabuleiro{
     }
     public boolean retirar_sujeira(int coordenada_x, int coordenada_y){
         this.sujeiras[coordenada_x][coordenada_y] = "   ";
-        String cor = this.tabuleiro[coordenada_x][coordenada_y];
+        String cor = this.ambiente[coordenada_x][coordenada_y];
         cor = cor.trim();
         cor = cor.replace('S', ' ');
         cor = cor.trim();
 
-        this.tabuleiro[coordenada_x][coordenada_y] = " " + cor + " ";
+        this.ambiente[coordenada_x][coordenada_y] = " " + cor + " ";
         for(int i = 0; i<dim_y; i++){
             for(int j = 0; j<dim_x; j++){
                 if(sujeiras[i][j].strip().equals("S")){
@@ -93,8 +93,8 @@ public class Tabuleiro{
                 else{
                 //S de Sujeira
                 //E importante ressaltar que primeiro coloco a coordenada y e depois x por conta do formato que a matriz e gerada
-                if(tabuleiro[y][x].strip().length()==0){
-                    this.tabuleiro[y][x] = " S ";
+                if(ambiente[y][x].strip().length()==0){
+                    this.ambiente[y][x] = " S ";
                     this.sujeiras[y][x] = " S ";
                     verificadorObstaculoExistente = true;
                 }
@@ -103,37 +103,37 @@ public class Tabuleiro{
         }
     }
     public void atribuir(AgenteMolde robo,int posAntiga_x,int posAntiga_y){
-        String posicaoAntigaString= tabuleiro[posAntiga_x][posAntiga_y].strip();
+        String posicaoAntigaString= ambiente[posAntiga_x][posAntiga_y].strip();
         if(posicaoAntigaString.length()==2){
             char corRobo = robo.getCor().charAt(0);
             posicaoAntigaString =  posicaoAntigaString.replace(corRobo, ' ');
-            tabuleiro[posAntiga_x][posAntiga_y]=posicaoAntigaString+" ";
+            ambiente[posAntiga_x][posAntiga_y]=posicaoAntigaString+" ";
         }
         else if(posicaoAntigaString.length()==1){
             char corRobo = robo.getCor().charAt(0);
             posicaoAntigaString =  posicaoAntigaString.replace(corRobo, ' ');
-            tabuleiro[posAntiga_x][posAntiga_y]=posicaoAntigaString+"  ";
+            ambiente[posAntiga_x][posAntiga_y]=posicaoAntigaString+"  ";
         }
         else{
-        tabuleiro[posAntiga_x][posAntiga_y]="   ";
+        ambiente[posAntiga_x][posAntiga_y]="   ";
         }
         int [] coordenadas = robo.getCoordenadas();
         int x = coordenadas[0];
         int y = coordenadas[1];
-        String espacoVazio = tabuleiro[x][y];
+        String espacoVazio = ambiente[x][y];
         if(espacoVazio.equals("   ")==true){
-            tabuleiro[x][y]=robo.getCor().charAt(0) + "  ";
+            ambiente[x][y]=robo.getCor().charAt(0) + "  ";
         }   
         if(espacoVazio.equals("   ")==false){
-            String cor = tabuleiro[x][y].strip();
-            tabuleiro[x][y]= cor + robo.getCor().charAt(0)+ " ";
+            String cor = ambiente[x][y].strip();
+            ambiente[x][y]= cor + robo.getCor().charAt(0)+ " ";
         }
     }
     public void mostrarMatriz(){
         ArrayList<String> linhaI = new ArrayList<>(); 
         for (int i=0;i<this.dim_y;i++){
             for(int j=0;j<dim_x;j++){
-                linhaI.add(this.tabuleiro[i][j]);
+                linhaI.add(this.ambiente[i][j]);
             }
             System.out.println(linhaI);
             linhaI= new ArrayList<>();
