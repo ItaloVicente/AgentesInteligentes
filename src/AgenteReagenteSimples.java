@@ -1,13 +1,13 @@
 import java.util.Random;
 public class AgenteReagenteSimples extends AgenteMolde {
     boolean errou = false;
-    public AgenteReagenteSimples(String cor){
-        super(cor);
+    public AgenteReagenteSimples(String nome){
+        super(nome);
     }
     @Override
-    public void mover(String movimento, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
+    public void mover(String movimento, Ambiente ambiente) throws MovimentoInvalidoException{
         try{
-            super.mover(movimento, tabuleiro);
+            super.mover(movimento, ambiente);
         }catch(MovimentoInvalidoException e){
             if(!errou){
                 errou = true;
@@ -17,18 +17,19 @@ public class AgenteReagenteSimples extends AgenteMolde {
             String[] casos = {"up", "down", "right", "left"};
             while(errou){
                 try{
-                    super.mover(casos[r.nextInt(4)], tabuleiro);
+                    super.mover(casos[r.nextInt(4)], ambiente);
                 
                     errou = false;
-                }catch(MovimentoInvalidoException err)
-                { }
+                }catch(MovimentoInvalidoException err){ 
+
+                }
             }
         }
     }
     @Override
-    public void mover(int movimento, Tabuleiro tabuleiro) throws MovimentoInvalidoException{
+    public void mover(int movimento, Ambiente ambiente) throws MovimentoInvalidoException{
         try{
-            super.mover(movimento, tabuleiro);
+            super.mover(movimento, ambiente);
         }catch(MovimentoInvalidoException e){
             if(!errou){
                 errou = true;
@@ -38,7 +39,7 @@ public class AgenteReagenteSimples extends AgenteMolde {
             int[] casos = {1, 2, 3, 4};
             while(errou){
                 try{
-                    super.mover(casos[r.nextInt(4)], tabuleiro);
+                    super.mover(casos[r.nextInt(4)], ambiente);
                 
                     errou = false;
                 }catch(MovimentoInvalidoException err)
