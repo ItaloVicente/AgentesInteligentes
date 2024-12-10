@@ -1,8 +1,8 @@
 import java.util.Random;
 public class AgenteReagenteSimples extends AgenteMolde {
     boolean errou = false;
-    public AgenteReagenteSimples(String cor){
-        super(cor);
+    public AgenteReagenteSimples(String nome){
+        super(nome);
     }
     @Override
     public void mover(String movimento, Ambiente ambiente) throws MovimentoInvalidoException{
@@ -20,8 +20,9 @@ public class AgenteReagenteSimples extends AgenteMolde {
                     super.mover(casos[r.nextInt(4)], ambiente);
                 
                     errou = false;
-                }catch(MovimentoInvalidoException err)
-                { }
+                }catch(MovimentoInvalidoException err){ 
+
+                }
             }
         }
     }

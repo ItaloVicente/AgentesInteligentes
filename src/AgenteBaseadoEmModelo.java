@@ -6,8 +6,8 @@ public class AgenteBaseadoEmModelo extends AgenteMolde {
     String[][] modelo;
     int dim_y;
     int dim_x;
-    public AgenteBaseadoEmModelo(String tipo, int dim_x, int dim_y){
-        super(tipo);
+    public AgenteBaseadoEmModelo(String nome, int dim_x, int dim_y){
+        super(nome);
         modelo = new String[dim_y][dim_x];
         for(int i=0;i<dim_y;i++){
             for(int j=0;j<dim_x;j++){

@@ -2,22 +2,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AgenteMolde{
-    protected String tipo;
+    protected String nome;
     protected int[]coordenadas = new int[2];
     protected int acertos;
     protected int erros;
     private Set<String> celulasVisitadas = new HashSet<>();
 
-    public AgenteMolde(String tipo) {
-        this.tipo = tipo;
+    public AgenteMolde(String nome) {
+        this.nome = nome;
         this.coordenadas[0]=0;
         this.coordenadas[1]=0;
         this.acertos=0;
         this.erros=0;
         String posicaoInicial = "0,0";
-        celulasVisitadas.add(posicaoInicial);
-
-        
+        celulasVisitadas.add(posicaoInicial);  
     }
     public void mover(String m, Ambiente ambiente) throws MovimentoInvalidoException {
         int dim_x = ambiente.getDim_x();
@@ -96,12 +94,12 @@ public class AgenteMolde{
     public boolean aspirar(Ambiente ambiente){
         return ambiente.retirar_sujeira(this.coordenadas[0], this.coordenadas[1]);
     }
-    public String getTipo() {
-        return tipo;
+    public String getNome() {
+        return nome;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public int[] getCoordenadas() {

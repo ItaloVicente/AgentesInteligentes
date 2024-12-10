@@ -56,12 +56,12 @@ public class Ambiente{
     }
     public boolean retirar_sujeira(int coordenada_x, int coordenada_y){
         this.sujeiras[coordenada_x][coordenada_y] = "   ";
-        String tipo = this.ambiente[coordenada_x][coordenada_y];
-        tipo = tipo.trim();
-        tipo = tipo.replace('S', ' ');
-        tipo = tipo.trim();
+        String nome = this.ambiente[coordenada_x][coordenada_y];
+        nome = nome.trim();
+        nome = nome.replace('S', ' ');
+        nome = nome.trim();
 
-        this.ambiente[coordenada_x][coordenada_y] = " " + tipo + " ";
+        this.ambiente[coordenada_x][coordenada_y] = " " + nome + " ";
         for(int i = 0; i<dim_y; i++){
             for(int j = 0; j<dim_x; j++){
                 if(sujeiras[i][j].strip().equals("S")){
@@ -103,13 +103,13 @@ public class Ambiente{
     public void atribuir(AgenteMolde aspirador,int posAntiga_x,int posAntiga_y){
         String posicaoAntigaString= ambiente[posAntiga_x][posAntiga_y].strip();
         if(posicaoAntigaString.length()==2){
-            char tipoAspirador = aspirador.getTipo().charAt(0);
-            posicaoAntigaString =  posicaoAntigaString.replace(tipoAspirador, ' ');
+            char nomeAspirador = aspirador.getNome().charAt(0);
+            posicaoAntigaString =  posicaoAntigaString.replace(nomeAspirador, ' ');
             ambiente[posAntiga_x][posAntiga_y]=posicaoAntigaString+" ";
         }
         else if(posicaoAntigaString.length()==1){
-            char tipoAspirador = aspirador.getTipo().charAt(0);
-            posicaoAntigaString =  posicaoAntigaString.replace(tipoAspirador, ' ');
+            char nomeAspirador = aspirador.getNome().charAt(0);
+            posicaoAntigaString =  posicaoAntigaString.replace(nomeAspirador, ' ');
             ambiente[posAntiga_x][posAntiga_y]=posicaoAntigaString+"  ";
         }
         else{
@@ -120,11 +120,11 @@ public class Ambiente{
         int y = coordenadas[1];
         String espacoVazio = ambiente[x][y];
         if(espacoVazio.equals("   ")==true){
-            ambiente[x][y]=aspirador.getTipo().charAt(0) + "  ";
+            ambiente[x][y]=aspirador.getNome().charAt(0) + "  ";
         }   
         if(espacoVazio.equals("   ")==false){
             String cor = ambiente[x][y].strip();
-            ambiente[x][y]= cor + aspirador.getTipo().charAt(0)+ " ";
+            ambiente[x][y]= cor + aspirador.getNome().charAt(0)+ " ";
         }
     }
     public void mostrarMatriz(){

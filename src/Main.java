@@ -47,7 +47,8 @@ public class Main {
                         movR1++;
                         ambiente.atribuir(aspirador, posAntigaR1_x, posAntigaR1_y);
                         ambiente.mostrarMatriz();
-                        System.out.println("Pontuação do aspirador " + aspirador.getTipo() + ": acertos " + aspirador.getAcertos() + ", erros: " + aspirador.getErros());
+                        System.out.println("Pontuação do aspirador " + aspirador.getNome() + ": acertos " 
+                        + aspirador.getAcertos() + ", erros: " + aspirador.getErros());
                         Thread.sleep(600);
                     } catch (MovimentoInvalidoException e) {
                         movInvR1++;
@@ -57,7 +58,8 @@ public class Main {
                     if (win1) {
                         verificadorAspirador = true;
                         System.out.println("Limpeza finalizada!");
-                        System.out.println("Pontuação final aspirador: " + aspirador.getTipo() + ": " + aspirador.getAcertos() + " acertos, e " + aspirador.getErros() + " erros.");
+                        System.out.println("Pontuação final aspirador: " + aspirador.getNome() + ": " 
+                        + aspirador.getAcertos() + " acertos, e " + aspirador.getErros() + " erros.");
                         System.out.println("Movimentos inválidos: " + movInvR1);
                     }
 
@@ -90,7 +92,8 @@ public class Main {
             writer.append("Iteração,Acertos,Erros,Movimentos Realizados\n"); // Cabeçalho
 
             for (int i = 0; i < iteracoes; i++) {
-                writer.append((i + 1) + "," + listaAcertos.get(i) + "," + listaErros.get(i) + "," + listaNumMovimentos.get(i) + "\n");
+                writer.append((i + 1) + "," + listaAcertos.get(i) + "," + listaErros.get(i) 
+                + "," + listaNumMovimentos.get(i) + "\n");
             }
 
             writer.append("Média," + mediaAcertos + "," + mediaErros + ",\n");
